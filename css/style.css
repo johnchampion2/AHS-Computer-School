@@ -136,3 +136,10 @@ tr.flash td{animation:flash .8s 4}
 .gs{padding:7px 0;border-bottom:1px solid var(--line)}.gs .b{min-width:78px;text-align:center;margin-right:8px}
 .steps{padding-left:20px;line-height:1.9;margin:6px 0 0}
 @media(max-width:900px){.hero{flex-direction:column;text-align:center}.two{grid-template-columns:1fr}.qa .btn{flex:1}}
+
+/* certificate buttons: 3 actions on one line on small screens, Close below */
+@media(max-width:900px){
+ .certbar{gap:6px;padding:10px 8px;flex-wrap:wrap}
+ .certbar .btn{flex:1 1 0;min-width:0;padding:10px 4px;font-size:.74rem;line-height:1.25;text-align:center}
+ .certbar #cClose{flex:1 1 100%}
+}
