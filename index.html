@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AHS COMPUTER SCHOOL</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b2a5b">
+<link rel="icon" href="assets/icons/icon-192.png"><link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="AHS Computer School">
+<link rel="stylesheet" href="css/style.css">
+</head><body>
+
+<div id="splash">
+  <img class="logo xl" src="assets/images/school-logo.png" alt="" onerror="this.style.display='none'">
+  <h1>ADVENTIST HEALTH SYSTEM<br>COMPUTER SCHOOL</h1>
+  <div class="gold-line"></div>
+  <p class="tag">Empowering Lives Through Technology</p>
+  <p class="sub">Computer Training Program Management System</p>
+  <div class="bar"><i></i></div><p class="sub">Welcome. Loading…</p>
+</div>
+
+<!-- LOGIN -->
+<div id="v-login" class="view hidden">
+  <div class="login-art"><div><img class="logo xl" src="assets/images/school-logo.png" alt="" onerror="this.style.display='none'"><h2>ADVENTIST HEALTH SYSTEM<br>COMPUTER SCHOOL</h2><p>Computer Training Program</p></div></div>
+  <div class="login-box">
+    <form id="loginForm" class="card" autocomplete="off">
+      <img class="logo md only-m" src="assets/images/school-logo.png" alt="" onerror="this.style.display='none'">
+      <h2>Sign In</h2><p class="muted">Select your role to continue</p>
+      <label>Role</label>
+      <select id="lRole"><option>Main Admin</option><option>Admin</option><option>Tutor</option><option>Student</option></select>
+      <div id="lStaff"><label>Username</label><input id="lUser"><label>Password</label><input id="lPass" type="password"></div>
+      <div id="lStud" class="hidden">
+        <label>Student ID Number</label><input id="sId" placeholder="e.g. AHS-001">
+        <label>Access PIN</label><input id="sPin" type="password" inputmode="numeric" placeholder="PIN given by the school">
+        <label>Program</label><select id="sProg"><option>All Programs</option></select>
+      </div>
+      <p id="lErr" class="err"></p>
+      <button class="btn" id="lBtn">Login</button>
+      <p id="regLink" class="center hidden">No account? <a href="#" id="goReg">Register here</a></p>
+      <button type="button" class="btn gold installBtn hidden" style="margin-top:14px">📲 Download the AHS App</button>
+    </form>
+  </div>
+</div>
+
+<!-- REGISTER -->
+<div id="v-register" class="view hidden"><div class="login-box solo">
+  <form id="regForm" class="card" autocomplete="off">
+    <img class="logo md" src="assets/images/school-logo.png" alt="" onerror="this.style.display='none'">
+    <h2>Staff Registration</h2><p class="muted">Admin and Tutor accounts require approval.</p>
+    <label>Full Name</label><input id="rName" required>
+    <label>Username</label><input id="rUser" required>
+    <label>Password (min 6 characters)</label><input id="rPass" type="password" required minlength="6">
+    <label>Role</label><select id="rRole"><option>Admin</option><option>Tutor</option></select>
+    <p id="rMsg" class="err"></p>
+    <button class="btn" id="rBtn">Register</button>
+    <p class="center"><a href="#" id="backLogin">← Back to login</a></p>
+  </form></div></div>
+
+<!-- STUDENT RESULT -->
+<div id="v-student" class="view hidden">
+  <header class="plainbar"><img class="logo sm" src="assets/images/school-logo.png" alt="" onerror="this.style.display='none'"><b>AHS Computer School</b><button class="btn ghost sm" id="stBack">← Back</button></header>
+  <div class="wrap" id="stBody"></div>
+</div>
+
+<!-- APP -->
+<div id="v-app" class="view hidden">
+  <header class="topbar"><button id="menuBtn" aria-label="Menu">☰</button><img class="logo sm" src="assets/images/school-logo.png" alt="" onerror="this.style.display='none'"><b>AHS Computer School</b></header>
+  <div id="overlay"></div>
+  <aside id="sidebar">
+    <div class="sb-head"><img class="logo md" src="assets/images/school-logo.png" alt="" onerror="this.style.display='none'"><h3>ADVENTIST HEALTH SYSTEM<br>COMPUTER SCHOOL</h3></div>
+    <div class="sb-user"><span id="uName"></span><small id="uRole"></small></div>
+    <nav>
+      <a data-p="home" class="active">🏠 Home</a>
+      <a data-p="results">📝 Enter Results</a>
+      <a data-p="admin" id="navAdmin" class="hidden">🛡️ Admin Control Panel</a>
+      <a class="installBtn hidden">📲 Install App</a>
+      <a id="logout">🚪 Logout</a>
+    </nav>
+  </aside>
+  <main>
+    <div class="pagehead"><h1>ADVENTIST HEALTH SYSTEM COMPUTER SCHOOL</h1></div>
+    <section id="p-home">
+      <div class="hero"><img class="hlogo" src="assets/images/school-logo.png" alt="" onerror="this.style.display='none'"><div><span class="chip" id="today"></span><h2 id="welcome"></h2><p>This system manages student records and Microsoft Office training results for the school. It grades automatically, calculates final averages and produces professional, printable result certificates.</p></div></div>
+      <div class="stats" id="stats"></div>
+      <h3 class="sec">Quick Actions</h3>
+      <div class="qa"><button class="btn" data-go="results">📝 Enter / View Results</button><button class="btn gold hidden" id="qaAdmin" data-go="admin">🛡️ Manage User Accounts</button></div>
+      <h3 class="sec">Computer Training Programs</h3>
+      <div class="progs"><div><i>🪟</i>Microsoft Windows</div><div><i>📄</i>Microsoft Word</div><div><i>📊</i>Microsoft Excel</div><div><i>🗄️</i>Microsoft Access</div><div><i>📽️</i>Microsoft PowerPoint</div><div><i>📰</i>Microsoft Publisher</div><div><i>🌐</i>Internet</div></div>
+      <div class="two">
+        <div class="card wide"><h3>Grading Scale</h3>
+          <div class="gs"><span class="b Distinction">75 – 100</span> Distinction</div><div class="gs"><span class="b Credit">65 – 74</span> Credit</div><div class="gs"><span class="b Pass">50 – 64</span> Pass</div><div class="gs"><span class="b Fail">0 – 49</span> Fail</div>
+          <p class="muted" style="font-size:.85rem">Final Grade = total of all 7 programs ÷ 7. It appears only when all seven scores are entered.</p></div>
+        <div class="card wide"><h3>How it works</h3><ol class="steps"><li>Enter each student's grade per program.</li><li>The system interprets the score automatically.</li><li>When all 7 are in, the final grade is calculated.</li><li>Print the certificate as an image, PDF or on paper.</li></ol></div>
+      </div>
+      <div class="card wide"><h3>Why this system?</h3><ul class="ticks"><li>Automatic grade interpretation and final average</li><li>Secure, role-based access to confidential results</li><li>Students view results with their ID and private PIN</li><li>Professional A4 certificates with watermark, date and signature line</li><li>Results appear for students as soon as they are entered</li></ul></div>
+    </section>
+    <section id="p-results" class="hidden">
+      <div class="toolbar">
+        <input id="search" placeholder="🔍 Search by Student ID or Name">
+        <button class="btn" id="addBtn">+ Add Grade</button>
+        <button class="btn gold" id="pdfAll">PRINT ALL RESULTS AS PDF</button>
+      </div>
+      <div class="tablewrap"><table class="tbl" id="stuTbl"><thead></thead><tbody></tbody></table></div>
+    </section>
+    <section id="p-admin" class="hidden">
+      <h2>User Accounts</h2>
+      <div class="tablewrap"><table class="tbl"><thead><tr><th>User ID</th><th>Full Name</th><th>Username</th><th>Role</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead><tbody id="userBody"></tbody></table></div>
+    </section>
+  </main>
+</div>
+
+<!-- Modals -->
+<div id="modal" class="modal hidden"><div class="mbox" id="mbox"></div></div>
+<div id="certModal" class="modal hidden"><div class="certwrap">
+  <div class="certview"><div id="certScale"><div id="cert"></div></div></div>
+  <div class="certbar">
+    <button class="btn" id="cImg">🖼️ Print as Image</button><button class="btn" id="cPdf">📄 Save as PDF</button>
+    <button class="btn" id="cPrint">🖨️ Print Certificate</button><button class="btn ghost" id="cClose">Close</button>
+  </div></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body></html>
