@@ -4,7 +4,7 @@ const $=i=>document.getElementById(i);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const interp=s=>s===null||s===""||s===undefined?"Incomplete Grade":s>=75?"Distinction":s>=65?"Credit":s>=50?"Pass":"Fail";
 const badge=t=>`<span class="b ${t.split(" ")[0]}">${esc(t)}</span>`;
-let S=JSON.parse(sessionStorage.getItem("ahs")||"null"),students=[],curCert=null,page="home";
+let S=JSON.parse(sessionStorage.getItem("ahs")||"null"),students=[],curCert=null,page="home",locked=false;
 
 async function api(action,data={}){
   if(!CONFIG.API_URL||CONFIG.API_URL.includes("PASTE")) throw new Error("Set your Apps Script URL in js/config.js first.");
@@ -75,7 +75,7 @@ function enterApp(){
 function nav(p){
   page=p;["home","results","admin"].forEach(x=>$("p-"+x).classList.toggle("hidden",x!==p));
   document.querySelectorAll("#sidebar nav a[data-p]").forEach(a=>a.classList.toggle("active",a.dataset.p===p));
-  closeMenu();
+  closeMenu();refreshLock();
   if(p==="home")loadStats();if(p==="results")loadStudents();if(p==="admin")loadUsers();
 }
 document.querySelectorAll("#sidebar nav a[data-p]").forEach(a=>a.onclick=()=>nav(a.dataset.p));
@@ -83,8 +83,19 @@ document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>nav(b.dataset.go
 function closeMenu(){$("sidebar").classList.remove("open");$("overlay").classList.remove("show");}
 $("menuBtn").onclick=()=>{$("sidebar").classList.toggle("open");$("overlay").classList.toggle("show");};
 $("overlay").onclick=closeMenu;
-$("logout").onclick=()=>{S=null;sessionStorage.removeItem("ahs");$("lUser").value="";view("v-login");};
+$("logout").onclick=()=>{S=null;$("sysBar").classList.add("hidden");sessionStorage.removeItem("ahs");$("lUser").value="";view("v-login");};
 async function guard(fn){try{return await fn();}catch(x){toast(x.message,true,3500);if(/Session expired/.test(x.message))$("logout").click();}}
+
+/* ---------- system open / close ---------- */
+function applyLock(l){
+  locked=!!l;const bar=$("sysBar"),b=$("sysBtn"),main=S&&S.role==="Main Admin";
+  bar.classList.remove("hidden");bar.classList.toggle("closed",locked);
+  $("sysTxt").textContent=locked?"🔒 System CLOSED – grade entry, editing and deletion are disabled.":"🔓 System OPEN – grades can be entered.";
+  b.textContent=locked?"Open System":"Close System";b.className="btn sm"+(locked?"":" red")+(main?"":" hidden");
+  $("addBtn").disabled=locked;
+}
+async function refreshLock(){const s=await guard(()=>api("status"));if(s){applyLock(s.locked);if(page==="results"&&students.length)renderStudents();}}
+$("sysBtn").onclick=()=>confirmBox(locked?"Open the system so grades can be entered again?":"Close the system? Nobody will be able to enter, edit or delete grades until you open it again.",()=>guard(async()=>{const s=await api("setLock",{locked:!locked});applyLock(s.locked);toast(s.locked?"System closed.":"System opened.");if(page==="results")renderStudents();}));
 
 async function loadStats(){
   const s=await guard(()=>api("stats"));if(!s)return;
@@ -105,7 +116,7 @@ function renderStudents(){
   $("stuTbl").tBodies[0].innerHTML=list.map(s=>{
     const hit=q&&(s===exact||(!exact&&s.name.toLowerCase().includes(q)));
     return `<tr class="${hit&&s===exact?"flash":""}"><td>${esc(s.id)}</td><td>${esc(s.name)}</td>${s.scores.map(x=>`<td class="c">${x===null?"—":x}</td>`).join("")}<td class="c"><b>${esc(s.final)}</b></td><td>${badge(s.finalInterp)}</td><td>${esc(s.pin)}</td>
-    <td><button class="ico" title="View" data-a="v" data-i="${esc(s.id)}">👁️</button><button class="ico" title="Edit" data-a="e" data-i="${esc(s.id)}">✏️</button>${can?`<button class="ico" title="Delete" data-a="d" data-i="${esc(s.id)}">🗑️</button>`:""}</td></tr>`;
+    <td><button class="ico" title="View" data-a="v" data-i="${esc(s.id)}">👁️</button><button class="ico" title="Edit" ${locked?"disabled":""} data-a="e" data-i="${esc(s.id)}">✏️</button>${can?`<button class="ico" title="Delete" ${locked?"disabled":""} data-a="d" data-i="${esc(s.id)}">🗑️</button>`:""}</td></tr>`;
   }).join("")||`<tr><td colspan="13" class="center muted" style="padding:24px">No student records found.</td></tr>`;
 }
 $("search").oninput=renderStudents;
