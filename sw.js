@@ -1,4 +1,4 @@
-const C="ahs-v3";
+const C="ahs-v2";
 const ASSETS=["./","index.html","css/style.css","js/app.js","js/config.js","manifest.json","assets/images/school-logo.png","assets/images/computer.png","assets/icons/icon-192.png"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()));});
