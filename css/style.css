@@ -143,3 +143,9 @@ tr.flash td{animation:flash .8s 4}
  .certbar .btn{flex:1 1 0;min-width:0;padding:10px 4px;font-size:.74rem;line-height:1.25;text-align:center}
  .certbar #cClose{flex:1 1 100%}
 }
+
+/* system open/close bar */
+.sysbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 14px;border-radius:10px;margin-bottom:14px;font-weight:600;background:#dcfce7;color:#166534;border:1px solid #86efac}
+.sysbar.closed{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
+.sysbar .btn{width:auto}
+.ico:disabled{opacity:.4;cursor:not-allowed}.btn:disabled{opacity:.5}
